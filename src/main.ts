@@ -7,7 +7,7 @@ const miEscuelaCRM = new CRMController("1.0.0");
  async function addUsuario() {
     console.log("Agregando un nuevo usuario...");
     let guardaConExito =  false;
-    guardaConExito = await miEscuelaCRM.registrarUsuarioAsync({ id: 4, nombre: "Ana Torres", rol: "alumno", activo: true });
+    guardaConExito = await miEscuelaCRM.registrarUsuarioAsync({ id: 8, nombre: "Ana Torres", rol: "alumno", activo: true });
     if (guardaConExito) {
         console.log("Usuario agregado con éxito.");
     } else {
@@ -24,4 +24,4 @@ const profesores = miEscuelaCRM.filtrarUsuariosPorRol("profesor");
 
 console.log("Profesores del centro:", profesores);
 
-miEscuelaCRM.agregarUsuario({ id:7, nombre: "Carlos Ruiz", rol: "profesor", activo: true });
+// miEscuelaCRM.agregarUsuario({ id:7, nombre: "Carlos Ruiz", rol: "profesor", activo: true });

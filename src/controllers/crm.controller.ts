@@ -20,20 +20,24 @@ export class CRMController {
     }
   }
 
-  public registrarUsuarioAsync(usuario: Usuario): Promise<boolean> {
+  public registrarUsuarioAsync(nuevoUsuario: Usuario): Promise<boolean> {
     return new Promise((resolve) => {
       console.log(
-        `[NETWORK]: Conectando con el servidor escolar para registrar a ${usuario.id}...`,
+        `[NETWORK]: Conectando con el servidor escolar para registrar a ${nuevoUsuario.id}...`,
       );
 
       // Simulamos un retraso de red de 2 segundos (2000 milisegundos)
       setTimeout(() => {
-        const nuevoUsuario: Usuario = {
-          id: usuario.id, // Genera un ID único aleatorio nativo de la plataforma web
-          nombre: usuario.nombre,
-          rol: usuario.rol,
-          activo: usuario.activo,
-        };
+        // 1. Validamos si el ID ya existe en nuestro array privado
+        const idDuplicado = this.usuariosDelCentro.some(
+          (user) => user.id === nuevoUsuario.id,
+        );
+
+        if (idDuplicado) {
+          console.error(`❌ Error: El usuario con ID [${nuevoUsuario.id}] ya existe en el SchoolCRM.`);
+          return; // Cortamos la ejecución para no añadirlo
+        }
+
 
         this.usuariosDelCentro.push(nuevoUsuario);
         localStorage.setItem(
@@ -63,7 +67,7 @@ export class CRMController {
     return this.version;
   }
   // 🚀 RESOLUCIÓN DEL RETO EXPRESS
-  public agregarUsuario(nuevoUsuario: Usuario): void {
+  /* public agregarUsuario(nuevoUsuario: Usuario): void {
     // 1. Validamos si el ID ya existe en nuestro array privado
     const idDuplicado = this.usuariosDelCentro.some(
       (user) => user.id === nuevoUsuario.id,
@@ -80,7 +84,7 @@ export class CRMController {
     this.usuariosDelCentro.push(nuevoUsuario);
     console.log(`✅ Usuario ${nuevoUsuario.nombre} añadido correctamente.`);
     this.guardarEnDisco(); // Guardamos los cambios en localStorage
-  }
+  } */
 
   private guardarEnDisco(): void {
     localStorage.setItem(
