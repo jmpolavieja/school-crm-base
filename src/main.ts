@@ -13,16 +13,25 @@ async function leerTodosLosUsuarios() {
 
 leerTodosLosUsuarios();
 
-function pintarUSuariosEnPantalla(): void {
-    // Capturmos el contenedor donde vamos a pintar la lista de usuarios
+async function pintarUSuariosEnPantalla() {
+    // CapturAmos el contenedor donde vamos a pintar la lista de usuarios
     const contenedor = document.getElementById("lista-usuarios") as HTMLDivElement;
     if (!contenedor) return; // Si no existe el contenedor, salimos de la función
 
     // Limpiamos el contenedor antes de pintar
     contenedor.innerHTML = "";
 
-    const usuarios = miEscuelaCRM.filtrarUsuariosPorRol("alumno"); // Obtenemos los alumnos
+    const usuarios = await miEscuelaCRM.leerTodosAsync(); // Obtenemos los alumnos
+    contenedor.innerHTML = '<ul>';
+    usuarios.forEach((usuario) => {
+        contenedor.innerHTML += '<li>' + usuario.id + "-" + usuario.nombre + '</li>'
+    });
+    contenedor.innerHTML += '</ul>';
+    
 }
+
+pintarUSuariosEnPantalla();
+
  async function addUsuario() {
     console.log("Agregando un nuevo usuario...");
     let guardaConExito =  false;
