@@ -1,13 +1,32 @@
 import {CRMController} from './controllers/crm.controller';
+import type { Usuario } from './models/interfaces';
 
 // Instanciamos el motor (creamos el objeto en memoria)
 const miEscuelaCRM = new CRMController("1.0.0");
+let todosLosUsuarios: Usuario[] = [];
 
+async function leerTodosLosUsuarios() {
+    console.log("Leyendo todos los usuarios");
+    todosLosUsuarios = await miEscuelaCRM.leerTodosAsync();
+    console.log(todosLosUsuarios);
+}
 
+leerTodosLosUsuarios();
+
+function pintarUSuariosEnPantalla(): void {
+    // Capturmos el contenedor donde vamos a pintar la lista de usuarios
+    const contenedor = document.getElementById("lista-usuarios") as HTMLDivElement;
+    if (!contenedor) return; // Si no existe el contenedor, salimos de la función
+
+    // Limpiamos el contenedor antes de pintar
+    contenedor.innerHTML = "";
+
+    const usuarios = miEscuelaCRM.filtrarUsuariosPorRol("alumno"); // Obtenemos los alumnos
+}
  async function addUsuario() {
     console.log("Agregando un nuevo usuario...");
     let guardaConExito =  false;
-    guardaConExito = await miEscuelaCRM.registrarUsuarioAsync({ id: 8, nombre: "Ana Torres", rol: "alumno", activo: true });
+    guardaConExito = await miEscuelaCRM.registrarUsuarioAsync({ id:1 , nombre: "Ana Torres", rol: "alumno", activo: true });
     if (guardaConExito) {
         console.log("Usuario agregado con éxito.");
     } else {
